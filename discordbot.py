@@ -1,21 +1,16 @@
 from discord.ext import commands
 import os
 import traceback
+import discord
 
-bot = commands.Bot(command_prefix='/')
+client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
+@client.event
+async def on_message(m):
+    if m.guild.id == 796546441702932481:
+        id = 863323034806386688
+        chnnel = await client.fetch_channel(id)
+        await channel.send(f'{m.channel.name}\n{m.author.name}\n\n{m.content}')
 
-@bot.event
-async def on_command_error(ctx, error):
-    orig_error = getattr(error, "original", error)
-    error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
-    await ctx.send(error_msg)
-
-
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-
-
-bot.run(token)
+client.run(token)
